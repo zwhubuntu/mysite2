@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    {% load staticfiles %}
+    <script src="{% static "csrf.js" %}"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <!--<link href="{% static "css/signin.css" %}" rel="stylesheet">-->
+    <link href="/static/css/signin.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Register</title>
+</head>
+
+<body>
+<div class="container">
+    <form class="form-signin" method = 'post' enctype="multipart/form-data">
+        <img src='/static/images/dianxin.png' alt='电信' />
+        <h3 class="form-signin-heading">注册</h3>
+        {% csrf_token %}
+        {{rf.as_p}}
+        <!--<input type="submit" value = "ok" />-->
+        <button class="btn btn-lg btn-primary" type="submit">
+            <span class="glyphicon glyphicon-plus"></span>注册</button>
+        <a href="http://127.0.0.1:8000/Test/login/">前往登录</a>
+    </form>
+</body>
+</html>
