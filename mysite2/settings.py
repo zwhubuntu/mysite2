@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'mysite2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'portal',
+        'NAME': 'zyzx',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '/Applications/MAMP/tmp/mysql/mysql.sock',

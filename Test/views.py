@@ -2,7 +2,7 @@ from django.shortcuts import render,render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 #from django.contrib.auth import login, logout, authenticate
-from .Forms import UserForm, RegistForm
+from .Forms import UserForm, RegistForm, SearchForm
 from models import User
 
 
@@ -24,12 +24,6 @@ def regist(req):
                     return HttpResponse('Please confirm your password!')
             except:
                 pass
-            #User.username = username
-            #User.password = password
-            #User.save()
-            #response = HttpResponseRedirect('/Test/login/')
-            #return response
-            #return HttpResponse('register successfully!')
         else:
             rf = RegistForm()
     else:
@@ -44,10 +38,14 @@ def login(req):
             username = uf.cleaned_data['username']
             password = uf.cleaned_data['password']
             user = User.objects.filter(username__exact=username, password__exact=password)
-
+            #tmp_count = User.objects.filter(username__exact=username, password__exact=password).values('log_count')
+            #print tmp_count
             if user:
                 response = HttpResponseRedirect('/Test/index/')
                 response.set_cookie('username', username, 3600)
+                tmp_count = User.objects.get(username__exact=username, password__exact=password)
+                tmp_count.log_count += 1
+                tmp_count.save()
                 return response
                 #return render(req, '/Test/index/', context_instance=RequestContext)
 
@@ -59,7 +57,31 @@ def login(req):
 
 def index(req):
     username = req.COOKIES.get('username')
-    return render_to_response('index2.html', {'username': username})
+    '''
+    if req.method == "POST":
+        sf = SearchForm(req.POST)
+        if sf.is_valid():
+            username = sf.cleaned_data['username']
+            user_get = User.objects.filter(username__exact=username)
+            if user_get:
+                users = User.objects.get(username__exact=username)
+                print users.username
+                return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf},context_instance=RequestContext(req))
+            elif username== '':
+                users = User.objects.all()
+                return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf},context_instance=RequestContext(req))
+            else:
+                users = User.objects.all()
+                return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf},context_instance=RequestContext(req))
+    else:
+        sf = SearchForm()
+        return render_to_response('index2.html', {'username': username, 'sf': sf},context_instance=RequestContext(req))
+        '''
+    sf = SearchForm()
+    users = User.objects.all()
+    return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf})
+
+
 
 def logout(req):
     #response = HttpResponse("You have successfully loggout")
@@ -67,5 +89,12 @@ def logout(req):
     response.delete_cookie('username')
     uf = UserForm()
     return render_to_response('login.html', {'uf': uf})
+
+def showusers(req):
+    users = User.objects.all()
+    for user in users:
+        print user.username
+    return render_to_response('index2.html', {'users': users})
+
 
 

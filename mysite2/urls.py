@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from Test import views
+from django.views.generic.base import RedirectView
 #from Test import urls
 
 urlpatterns = [
@@ -24,6 +25,8 @@ urlpatterns = [
     url(r'^Test/login/$', 'Test.views.login'),
     url(r'^Test/regist/$', 'Test.views.regist'),
     url(r'^Test/index/$', 'Test.views.index'),
-    url(r'^Test/logout/$', 'Test.views.logout'),
+    #url(r'^Test/index/$', 'Test.views.showusers'),
+    #url(r'^Test/logout/$', 'Test.views.logout'),
+    url(r'^Test/logout/$', RedirectView.as_view(url='/Test/login/'), name='Test.views.logout'),
     url(r'^$', 'Test.views.login'),
 ]

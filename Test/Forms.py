@@ -9,6 +9,10 @@ class UserForm(forms.Form):
     password = forms.CharField(label='口令', widget=forms.TextInput(attrs={'class': 'form-control','type': 'password'}))
 
 class RegistForm(forms.Form):
-    username = forms.CharField(label='账号', max_length=256, widget=forms.TextInput(attrs={'class':'form-control'}))
+    username = forms.CharField(label='账号', max_length=256, widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='口令', max_length=256, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'password'}))
     confirm_password = forms.CharField(label='确认', max_length=256, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'password'}))
+
+class SearchForm(forms.Form):
+    username = forms.CharField(label='查询用户名', max_length=256, widget=forms.TextInput(attrs={'class': 'form'}))
+
