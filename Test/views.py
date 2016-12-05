@@ -1,11 +1,11 @@
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 #from django.contrib.auth import login, logout, authenticate
 from .Forms import UserForm, RegistForm, SearchForm
 from models import User
 
-
+#@login_required
 # Create your views here.
 def regist(req):
     #return render_to_response('regist.html')
@@ -57,26 +57,18 @@ def login(req):
 
 def index(req):
     username = req.COOKIES.get('username')
-    '''
     if req.method == "POST":
         sf = SearchForm(req.POST)
         if sf.is_valid():
             username = sf.cleaned_data['username']
-            user_get = User.objects.filter(username__exact=username)
-            if user_get:
-                users = User.objects.get(username__exact=username)
-                print users.username
-                return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf},context_instance=RequestContext(req))
-            elif username== '':
-                users = User.objects.all()
-                return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf},context_instance=RequestContext(req))
-            else:
-                users = User.objects.all()
-                return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf},context_instance=RequestContext(req))
+            users = User.objects.filter(username__exact=username)
+            if users:
+                #users = User.objects.get(username__exact=username)
+                #print users.username
+                return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf}, context_instance=RequestContext(req))
     else:
         sf = SearchForm()
-        return render_to_response('index2.html', {'username': username, 'sf': sf},context_instance=RequestContext(req))
-        '''
+        return render_to_response('index2.html', {'username': username, 'sf': sf}, context_instance=RequestContext(req))
     sf = SearchForm()
     users = User.objects.all()
     return render_to_response('index2.html', {'username': username, 'users': users, 'sf': sf})
