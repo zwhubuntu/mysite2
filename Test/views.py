@@ -1,11 +1,14 @@
+#coding:utf-8
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 #from django.contrib.auth import login, logout, authenticate
 from .Forms import UserForm, RegistForm, SearchForm
 from models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-#@login_required
+
 # Create your views here.
 def regist(req):
     #return render_to_response('regist.html')
@@ -27,7 +30,7 @@ def regist(req):
         else:
             rf = RegistForm()
     else:
-        rf = RegistForm
+        rf = RegistForm()
     return render_to_response('regist.html', {'rf': rf}, context_instance=RequestContext(req))
 
 
@@ -45,16 +48,15 @@ def login(req):
                 response.set_cookie('username', username, 3600)
                 tmp_count = User.objects.get(username__exact=username, password__exact=password)
                 tmp_count.log_count += 1
+                tmp_count.last_log_ip = req.META['REMOTE_ADDR']
                 tmp_count.save()
                 return response
                 #return render(req, '/Test/index/', context_instance=RequestContext)
-
-            else:
-                HttpResponseRedirect('/Test/login/')
     else:
         uf = UserForm()
     return render_to_response('login.html', {'uf': uf}, context_instance=RequestContext(req))
 
+#@login_required
 def index(req):
     username = req.COOKIES.get('username')
     if req.method == "POST":
@@ -81,12 +83,6 @@ def logout(req):
     response.delete_cookie('username')
     uf = UserForm()
     return render_to_response('login.html', {'uf': uf})
-
-def showusers(req):
-    users = User.objects.all()
-    for user in users:
-        print user.username
-    return render_to_response('index2.html', {'users': users})
 
 
 
