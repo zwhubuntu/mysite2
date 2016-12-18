@@ -28,4 +28,20 @@ h1, h2, h3, h4, h5, h6 {
 .small-print {
 	text-align: center;
 	}
-	
+
+.navbar-inverse {
+  background-color: #337ab7;/*背景色*/
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: white;/*导航块文字色*/
+  font-size:18px;
+  /*font-family:微软雅黑;*/
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: white;/*导航块选中文字色*/
+  background-color: #286090;/*导航块选中背景色*/
+}
+
