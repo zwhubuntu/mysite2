@@ -97,11 +97,12 @@
 
 <div id="right" style="color: #0f0f0f">
 <form class="form-signin" method = 'post' enctype="multipart/form-data">
-    {{ sf.as_p }}<button class="btn" type="submit">查询</button>
+    {{ sf.as_p }}<button class="btn btn-primary" type="submit">查询</button>
 </form>
-    <table class="table-bordered table">
+    <table class="table-bordered table table-striped">
     <thead>
     <tr>
+        <th>id</th>
         <th>用户名</th>
         <th>角色</th>
         <th>登录次数</th>
@@ -110,6 +111,7 @@
         {% for user in users %}
             <tbody>
             <tr>
+                <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.role }}</td>
                 <td>{{ user.log_count }}</td>
